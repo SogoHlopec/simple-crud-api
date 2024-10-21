@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { getAllUsers } from '../controllers/userController';
+import { getAllUsers, createUser } from '../controllers/userController';
 
 const BASE_URL = '/api/users';
 
@@ -27,6 +27,8 @@ const userRoutes = (
                 // return getUserById(request, response)
             }
             break;
+        case 'POST':
+            return createUser(request, response);
         default:
             response.writeHead(404, { 'Content-Type': 'application/json' });
             response.end(JSON.stringify({ message: 'Not found method' }))
