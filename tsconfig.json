@@ -12,6 +12,6 @@
     "baseUrl": "./",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/utils/validateUuid.ts"],
   "exclude": ["node_modules", "dist"]
 }
