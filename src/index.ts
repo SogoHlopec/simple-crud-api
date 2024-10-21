@@ -1,17 +1,15 @@
-import http from 'http';
-import dotenv from 'dotenv';
+import * as http from 'node:http';
+import * as dotenv from 'dotenv';
+import { userRoutes } from './routes/userRoutes';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((request, response) => {
-    if (request.url == '/api/users') {
-        response.write('test');
-    }
-    response.end();
+    userRoutes(request, response);
 });
 
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
