@@ -90,16 +90,25 @@ const updateUser = async (
       return response.end(JSON.stringify({ message: 'User not found' }));
     }
 
-    const { newUsername, newAge, newHobbies } = JSON.parse(body);
-    users[userIndex] = {
-      id: users[userIndex].id,
-      username: newUsername,
-      age: newAge,
-      hobbies: newHobbies,
-    };
+    if (body) {
+      const { username, age, hobbies } = JSON.parse(body);
+      users[userIndex] = {
+        id: users[userIndex].id,
+        username: username ? username : users[userIndex].username,
+        age: age ? age : users[userIndex].age,
+        hobbies: hobbies ? hobbies : users[userIndex].hobbies,
+      };
 
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(users[userIndex]));
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify(users[userIndex]));
+    } else {
+      response.writeHead(400, { 'Content-Type': 'application/json' });
+      return response.end(
+        JSON.stringify({
+          message: `Please enter the body`,
+        }),
+      );
+    }
   });
 };
 
