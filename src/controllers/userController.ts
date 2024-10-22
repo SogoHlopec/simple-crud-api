@@ -45,22 +45,31 @@ const createUser = (
   });
 
   request.on('end', () => {
-    const { username, age, hobbies } = JSON.parse(body);
-    if (!username || !age || !Array.isArray(hobbies)) {
+    if (body) {
+      const { username, age, hobbies } = JSON.parse(body);
+      if (!username || !age || !Array.isArray(hobbies)) {
+        response.writeHead(400, { 'Content-Type': 'application/json' });
+        return response.end(
+          JSON.stringify({ message: 'Missing required fields' }),
+        );
+      }
+      const newUser = {
+        id: uuidv4(),
+        username: username,
+        age: age,
+        hobbies: hobbies,
+      };
+      users.push(newUser);
+      response.writeHead(201, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify(newUser));
+    } else {
       response.writeHead(400, { 'Content-Type': 'application/json' });
       return response.end(
-        JSON.stringify({ message: 'Missing required fields' }),
+        JSON.stringify({
+          message: `Please enter the body`,
+        }),
       );
     }
-    const newUser = {
-      id: uuidv4(),
-      username: username,
-      age: age,
-      hobbies: hobbies,
-    };
-    users.push(newUser);
-    response.writeHead(201, { 'Content-Type': 'application/json' });
-    return response.end(JSON.stringify(newUser));
   });
 };
 
