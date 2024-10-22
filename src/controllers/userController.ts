@@ -64,4 +64,43 @@ const createUser = async (
   });
 };
 
-export { getAllUsers, createUser, getUserById };
+const updateUser = async (
+  request: IncomingMessage,
+  response: ServerResponse<IncomingMessage>,
+  userId: string,
+) => {
+  let body = '';
+
+  request.on('data', (chunk) => {
+    body += chunk;
+  });
+
+  request.on('end', () => {
+    if (!validateUuid(userId)) {
+      response.writeHead(400, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ message: 'Invalid userId format' }));
+    }
+
+    const userIndex = users.findIndex((item) => {
+      return item.id === userId;
+    });
+
+    if (userIndex === -1) {
+      response.writeHead(404, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ message: 'User not found' }));
+    }
+
+    const { newUsername, newAge, newHobbies } = JSON.parse(body);
+    users[userIndex] = {
+      id: users[userIndex].id,
+      username: newUsername,
+      age: newAge,
+      hobbies: newHobbies,
+    };
+
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(users[userIndex]));
+  });
+};
+
+export { getAllUsers, createUser, getUserById, updateUser };

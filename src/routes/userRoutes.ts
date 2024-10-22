@@ -3,6 +3,7 @@ import {
   getAllUsers,
   createUser,
   getUserById,
+  updateUser,
 } from '../controllers/userController';
 
 const BASE_URL = '/api/users';
@@ -33,6 +34,10 @@ const userRoutes = (
       break;
     case 'POST':
       return createUser(request, response);
+    case 'PUT':
+        if (userId) {
+            return updateUser(request, response, userId);
+        }
     default:
       response.writeHead(404, { 'Content-Type': 'application/json' });
       response.end(JSON.stringify({ message: 'Not found method' }));
