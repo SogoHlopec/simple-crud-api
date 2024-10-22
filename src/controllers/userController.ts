@@ -34,7 +34,7 @@ const getUserById = (
   response.end(JSON.stringify(user));
 };
 
-const createUser = async (
+const createUser = (
   request: IncomingMessage,
   response: ServerResponse<IncomingMessage>,
 ) => {
@@ -64,7 +64,7 @@ const createUser = async (
   });
 };
 
-const updateUser = async (
+const updateUser = (
   request: IncomingMessage,
   response: ServerResponse<IncomingMessage>,
   userId: string,
@@ -112,4 +112,27 @@ const updateUser = async (
   });
 };
 
-export { getAllUsers, createUser, getUserById, updateUser };
+const deleteUser = (
+  request: IncomingMessage,
+  response: ServerResponse<IncomingMessage>,
+  userId: string,
+) => {
+  if (!validateUuid(userId)) {
+    response.writeHead(400, { 'Content-Type': 'application/json' });
+    return response.end(JSON.stringify({ message: 'Invalid userId format' }));
+  }
+
+  const userIndex = users.findIndex((item) => {
+    return item.id === userId;
+  });
+
+  if (userIndex === -1) {
+    response.writeHead(404, { 'Content-Type': 'application/json' });
+    return response.end(JSON.stringify({ message: 'User not found' }));
+  }
+
+  users.splice(userIndex, 1);
+  return response.writeHead(204).end();
+};
+
+export { getAllUsers, createUser, getUserById, updateUser, deleteUser };

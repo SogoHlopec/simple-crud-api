@@ -4,6 +4,7 @@ import {
   createUser,
   getUserById,
   updateUser,
+  deleteUser,
 } from '../controllers/userController';
 
 const BASE_URL = '/api/users';
@@ -37,6 +38,10 @@ const userRoutes = (
     case 'PUT':
         if (userId) {
             return updateUser(request, response, userId);
+        }
+    case 'DELETE':
+        if (userId) {
+            return deleteUser(request, response, userId);
         }
     default:
       response.writeHead(404, { 'Content-Type': 'application/json' });
