@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "Node16",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node16",
     "removeComments": true,
     "skipLibCheck": true,
     "baseUrl": "./",
-    "sourceMap": true
+    "sourceMap": true,
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

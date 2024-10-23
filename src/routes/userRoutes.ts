@@ -36,13 +36,13 @@ const userRoutes = (
     case 'POST':
       return createUser(request, response);
     case 'PUT':
-        if (userId) {
-            return updateUser(request, response, userId);
-        }
+      if (userId) {
+        return updateUser(request, response, userId);
+      }
     case 'DELETE':
-        if (userId) {
-            return deleteUser(request, response, userId);
-        }
+      if (userId) {
+        return deleteUser(request, response, userId);
+      }
     default:
       response.writeHead(404, { 'Content-Type': 'application/json' });
       response.end(JSON.stringify({ message: 'Not found method' }));
